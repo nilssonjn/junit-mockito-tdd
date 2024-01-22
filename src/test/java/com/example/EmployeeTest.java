@@ -16,4 +16,14 @@ class EmployeeTest {
         assertThat(employee.getId()).isEqualTo("John");
         assertThat(employee.getSalary()).isEqualTo(15000);
     }
+
+    @Test
+    @DisplayName("Assure setId sets an id")
+    void assureSetIdSetsAnId() {
+        Employee employee = new Employee("John", 15000);
+        String newId = "5";
+        employee.setId(newId);
+
+        assertThat(employee.getId()).isEqualTo("5");
+    }
 }
