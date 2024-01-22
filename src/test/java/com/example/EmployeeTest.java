@@ -2,10 +2,7 @@ package com.example;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeTest {
 
@@ -54,5 +51,14 @@ class EmployeeTest {
         employee.setPaid(false);
 
         assertThat(employee.isPaid()).isEqualTo(false);
+    }
+
+    @Test
+    @DisplayName("Test toString method")
+    void testToStringMethod() {
+        Employee employee = new Employee("John", 15000.0);
+        String result = employee.toString();
+
+        assertThat(result).isEqualTo("Employee [id=John, salary=15000.0]");
     }
 }
