@@ -26,4 +26,15 @@ class EmployeeTest {
 
         assertThat(employee.getId()).isEqualTo("5");
     }
+
+    @Test
+    @DisplayName("Assure setSalary updates a new salary")
+    void assureSetSalaryUpdatesANewSalary() {
+        Employee employee = new Employee("John", 15000);
+
+        double updatedSalary = 20000.0;
+        employee.setSalary(updatedSalary);
+
+        assertThat(employee.getSalary()).isEqualTo(20000.0);
+    }
 }
