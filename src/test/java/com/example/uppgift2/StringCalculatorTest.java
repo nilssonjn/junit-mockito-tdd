@@ -21,4 +21,11 @@ class StringCalculatorTest {
 
         assertThat(stringCalculator.add("")).isEqualTo(0);
     }
+
+    @Test
+    @DisplayName("Given 1 return 1")
+    void given1Return1() {
+
+        assertThat(stringCalculator.add("1")).isEqualTo(1);
+    }
 }
