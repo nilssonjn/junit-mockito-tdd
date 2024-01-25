@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 public class StringCalculator {
 
+    String delimiters;
+
     public int add(String numbers) {
         if (numbers.isEmpty()) return 0;
         return adding(numbers);
@@ -22,7 +24,11 @@ public class StringCalculator {
     }
 
     private String[] splitNumbers(String numbers) {
-        String delimiters = "[,\n]";
-        return numbers.split(delimiters);
+        if (numbers.startsWith("//")) {
+            delimiters = "[\n;]";
+            return numbers.substring(4).replaceAll("\\s+","").split(delimiters);
+        } else {
+            delimiters = "[,\n]";
+        } return numbers.split(delimiters);
     }
 }
