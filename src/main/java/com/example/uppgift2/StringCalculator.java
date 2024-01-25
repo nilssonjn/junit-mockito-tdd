@@ -1,21 +1,28 @@
 package com.example.uppgift2;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class StringCalculator {
 
     public int add(String numbers) {
-        if (numbers.length() > 1) return splitNumbers(numbers);
-        if (numbers.length() == 1) return Integer.parseInt(numbers);
-        return 0;
+        if (numbers.isEmpty()) return 0;
+        return adding(numbers);
     }
 
-    private int splitNumbers(String numbers) {
-        String[] splitNumbers = numbers.split("[,\n]");
-        int sum = 0;
-        for (String number : splitNumbers) {
-            if(!number.trim().isEmpty()) {
-                sum += Integer.parseInt(number.trim());
-            }
-        }
-        return sum;
+    private int adding(String numbers) {
+        List<Integer> splittedNumbers = stringToNumbers(splitNumbers(numbers));
+        return splittedNumbers.stream().reduce(0, Integer::sum);
+    }
+    private List<Integer> stringToNumbers(String[] split) {
+        return Arrays.stream(split)
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+    }
+
+    private String[] splitNumbers(String numbers) {
+        String delimiters = "[,\n]";
+        return numbers.split(delimiters);
     }
 }

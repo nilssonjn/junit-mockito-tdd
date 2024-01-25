@@ -57,4 +57,10 @@ class StringCalculatorTest {
     void givenNewLinesBetweenNumbersShouldStillReturn6() {
         assertThat(stringCalculator.add("1\n2,3")).isEqualTo(6);
     }
+
+    @Test
+    @DisplayName("Given lines with custom delimiters between numbers should still return 3")
+    void givenLinesWithCustomDelimitersBetweenNumbersShouldStillReturn3() {
+        assertThat(stringCalculator.add("//;\n1;2")).isEqualTo(3);
+    }
 }
