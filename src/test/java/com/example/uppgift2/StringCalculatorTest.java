@@ -51,4 +51,10 @@ class StringCalculatorTest {
     void given5050Returns100() {
         assertThat(stringCalculator.add("50,50")).isEqualTo(100);
     }
+
+    @Test
+    @DisplayName("Given new lines between numbers should still return 6")
+    void givenNewLinesBetweenNumbersShouldStillReturn6() {
+        assertThat(stringCalculator.add("1\n2,3")).isEqualTo(6);
+    }
 }

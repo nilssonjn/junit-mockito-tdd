@@ -9,10 +9,12 @@ public class StringCalculator {
     }
 
     private int splitNumbers(String numbers) {
-        String[] splitNumbers = numbers.split(",");
+        String[] splitNumbers = numbers.split("[,\n]");
         int sum = 0;
         for (String number : splitNumbers) {
-            sum += Integer.parseInt(number);
+            if(!number.trim().isEmpty()) {
+                sum += Integer.parseInt(number.trim());
+            }
         }
         return sum;
     }
