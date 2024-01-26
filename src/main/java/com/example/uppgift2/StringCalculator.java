@@ -26,7 +26,7 @@ public class StringCalculator {
     private String[] splitNumbers(String numbers) {
         if (numbers.startsWith("//")) {
             delimiters = "[\n;]";
-            return numbers.substring(4).replaceAll("\\s+","").split(delimiters);
+            return numbers.substring(3).replaceAll("\\s+","").split(delimiters);
         } else {
             delimiters = "[,\n]";
         } return numbers.split(delimiters);
