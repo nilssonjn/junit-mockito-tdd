@@ -73,7 +73,21 @@ class StringCalculatorTest {
                         stringCalculator.add("-4")
         );
 
-        String expectedMessage = "negatives not allowed: -4";
+        String expectedMessage = "negatives not allowed: [-4]";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Test
+    @DisplayName("Given multiple negative numbers return negative exception with message")
+    void givenMultipleNegativeNumbersReturnNegativeExceptionWithMessage() {
+        StringCalculator.negativesNumbersException exception = assertThrows(
+                StringCalculator.negativesNumbersException.class, () ->
+                        stringCalculator.add("-4,-5")
+        );
+
+        String expectedMessage = "negatives not allowed: [-4, -5]";
         String actualMessage = exception.getMessage();
 
         assertEquals(expectedMessage, actualMessage);
