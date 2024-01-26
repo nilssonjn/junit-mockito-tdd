@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 public class StringCalculator {
 
     String delimiters;
-    int convertStringToNumber;
 
     public int add(String numbers) {
         if (numbers.isEmpty()) return 0;
@@ -18,7 +17,7 @@ public class StringCalculator {
     private int adding(String numbers) {
         List<Integer> separatedNumbers = stringToNumbers(splitNumbers(numbers));
         findNegativeNumbers(separatedNumbers);
-        return separatedNumbers.stream().reduce(0, Integer::sum);
+        return separatedNumbers.stream().filter(n -> n <= 1000).reduce(0, Integer::sum);
     }
     private List<Integer> stringToNumbers(String[] split) {
         return Arrays

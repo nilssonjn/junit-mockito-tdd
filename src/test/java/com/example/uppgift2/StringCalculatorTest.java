@@ -92,4 +92,10 @@ class StringCalculatorTest {
 
         assertEquals(expectedMessage, actualMessage);
     }
+
+    @Test
+    @DisplayName("Given number bigger than 1000 should be ignored")
+    void givenNumberBiggerThan1000ShouldBeIgnored() {
+        assertThat(stringCalculator.add("1001,4")).isEqualTo(4);
+    }
 }
