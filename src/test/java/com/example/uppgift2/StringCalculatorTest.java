@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringCalculatorTest {
@@ -62,5 +63,19 @@ class StringCalculatorTest {
     @DisplayName("Given lines with custom delimiters between numbers should still return 3")
     void givenLinesWithCustomDelimitersBetweenNumbersShouldStillReturn3() {
         assertThat(stringCalculator.add("//;\n1;2")).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("Given a negative number return negative exception with message")
+    void givenANegativeNumberReturnNegativeExceptionWithMessage() {
+        StringCalculator.negativesNumbersException exception = assertThrows(
+                StringCalculator.negativesNumbersException.class, () ->
+                        stringCalculator.add("-4")
+        );
+
+        String expectedMessage = "negatives not allowed: -4";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
     }
 }
