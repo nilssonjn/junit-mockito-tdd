@@ -51,12 +51,15 @@ class EmployeesTest {
         assertThat(employee.isPaid()).isEqualTo(true);
     }
 
-//    @Test
-//    @DisplayName("Given mock employee make sure successful payment returns number of payments")
-//    void givenMockEmployeeMakeSureSuccessfulPaymentReturnsNumberOfPayments() {
-//        Employee employee = new Employee(null, 10000.00);
-//
-//        when(employeeRepository.findAll()).thenReturn(List.of(employee));
-//        when(bankService.pay(anyString(), anyDouble()))
-//    }
+    @Test
+    @DisplayName("Given mock employee make sure successful payment returns number of payments")
+    void givenMockEmployeeMakeSureSuccessfulPaymentReturnsNumberOfPayments() {
+        EmployeeRepository employeeRepositoryStub = new EmployeeRepositoryStub();
+        BankService bankServiceStub = new BankServiceStub();
+        Employees employees = new Employees(employeeRepositoryStub, bankServiceStub);
+
+        var result = employees.payEmployees();
+
+        assertThat(result).isEqualTo(2);
+    }
 }

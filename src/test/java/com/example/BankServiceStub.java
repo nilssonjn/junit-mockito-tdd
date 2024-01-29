@@ -1,7 +1,8 @@
 package com.example;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class BankServiceStub {
-
+public class BankServiceStub implements BankService {
+    @Override
+    public void pay(String id, double amount) {
+        System.out.println("Simulating payment for employee: " + id);
+    }
 }
