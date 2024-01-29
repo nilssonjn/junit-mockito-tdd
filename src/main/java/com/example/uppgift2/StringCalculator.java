@@ -3,11 +3,12 @@ package com.example.uppgift2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringCalculator {
 
-    String delimiters;
+    String delimiters = "[,\n;]";
 
     public int add(String numbers) {
         if (numbers.isEmpty()) return 0;
@@ -19,6 +20,7 @@ public class StringCalculator {
         findNegativeNumbers(separatedNumbers);
         return separatedNumbers.stream().filter(n -> n <= 1000).reduce(0, Integer::sum);
     }
+
     private List<Integer> stringToNumbers(String[] split) {
         return Arrays
                 .stream(split)
@@ -28,11 +30,19 @@ public class StringCalculator {
 
     private String[] splitNumbers(String numbers) {
         if (numbers.startsWith("//")) {
-            delimiters = "[\n;]";
-            return numbers.substring(3).replaceAll("\\s+","").split(delimiters);
+            int delimiterStart = numbers.indexOf("[");
+            int delimiterEnd = numbers.indexOf("]");
+            if (delimiterStart != -1 && delimiterEnd != -1 && delimiterEnd > delimiterStart) {
+                String delimiter = numbers.substring(delimiterStart + 1, delimiterEnd);
+                String escapedDelimiter = Pattern.quote(delimiter);
+                delimiters = "[" + escapedDelimiter + "\n]";
+                return numbers.substring(numbers.indexOf("\n") + 1).replaceAll("\\s+", "").split(escapedDelimiter);
+            } else {
+                return numbers.substring(4).split(delimiters);
+            }
         } else {
-            delimiters = "[,\n]";
-        } return numbers.split(delimiters);
+            return numbers.split(delimiters);
+        }
     }
 
     private void findNegativeNumbers(List<Integer> seperatedNumbers) {
@@ -40,7 +50,8 @@ public class StringCalculator {
         for (Integer integer : seperatedNumbers) {
             if (integer < 0) negativeNumbers.add(integer);
         }
-        if (!negativeNumbers.isEmpty()) throw new negativesNumbersException("negatives not allowed: " + negativeNumbers);
+        if (!negativeNumbers.isEmpty())
+            throw new negativesNumbersException("negatives not allowed: " + negativeNumbers);
     }
 
     public static class negativesNumbersException extends IllegalArgumentException {
@@ -49,3 +60,4 @@ public class StringCalculator {
         }
     }
 }
+

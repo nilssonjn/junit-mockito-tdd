@@ -98,4 +98,10 @@ class StringCalculatorTest {
     void givenNumberBiggerThan1000ShouldBeIgnored() {
         assertThat(stringCalculator.add("1001,4")).isEqualTo(4);
     }
+
+    @Test
+    @DisplayName("Given delimiter with any length should still return right amount")
+    void givenDelimiterWithAnyLengthShouldStillReturnRightAmount() {
+        assertThat(stringCalculator.add("//[***]\n1***2***3")).isEqualTo(6);
+    }
 }
