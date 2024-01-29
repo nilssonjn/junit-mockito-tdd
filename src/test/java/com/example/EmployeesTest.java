@@ -1,5 +1,6 @@
 package com.example;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -28,12 +31,17 @@ class EmployeesTest {
     @InjectMocks
     Employees employees;
 
-    @Test
-    @DisplayName("Given employee mock should return isPaid true")
-    void givenEmployeeMockShouldReturnIsPaidTrue() {
+    @BeforeEach
+    void setUp() {
         employeeRepository = mock(EmployeeRepository.class);
         bankService = mock(BankService.class);
         employees = new Employees(employeeRepository, bankService);
+
+    }
+
+    @Test
+    @DisplayName("Given employee mock should return isPaid true")
+    void givenEmployeeMockShouldReturnIsPaidTrue() {
         Employee employee = new Employee("1", 10000.00);
 
         when(employeeRepository.findAll()).thenReturn(List.of(employee));
@@ -42,4 +50,13 @@ class EmployeesTest {
 
         assertThat(employee.isPaid()).isEqualTo(true);
     }
+
+//    @Test
+//    @DisplayName("Given mock employee make sure successful payment returns number of payments")
+//    void givenMockEmployeeMakeSureSuccessfulPaymentReturnsNumberOfPayments() {
+//        Employee employee = new Employee(null, 10000.00);
+//
+//        when(employeeRepository.findAll()).thenReturn(List.of(employee));
+//        when(bankService.pay(anyString(), anyDouble()))
+//    }
 }
