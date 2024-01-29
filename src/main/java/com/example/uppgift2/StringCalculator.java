@@ -29,7 +29,7 @@ public class StringCalculator {
         return separatedNumbers.stream().filter(n -> n <= 1000).reduce(0, Integer::sum);
     }
 
-    private String extractDelimiters(String delimiterString) {
+    public String extractDelimiters(String delimiterString) {
         if (delimiterString.isEmpty()) {
             return defaultDelimiters;
         }

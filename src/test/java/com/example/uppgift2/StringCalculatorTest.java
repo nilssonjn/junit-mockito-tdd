@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringCalculatorTest {
@@ -115,5 +114,17 @@ class StringCalculatorTest {
     @DisplayName("Given multiple delimiters with length longer than one char")
     void givenMultipleDelimitersWithLengthLongerThanOneChar() {
         assertThat(stringCalculator.add("//[***][%%]\n1***4%%5")).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("Given empty delimiter string should return default delimiters")
+    void givenEmptyDelimiterStringShouldReturnDefaultDelimiters() {
+        assertThat(stringCalculator.extractDelimiters("")).isEqualTo("[/,\n;]");
+    }
+
+    @Test
+    @DisplayName("Given empty delimiter string without custom delimiters should return quoted delimiters")
+    void givenEmptyDelimiterStringWithoutCustomDelimitersShouldReturnQuotedDelimiters() {
+        assertThat(stringCalculator.extractDelimiters(";")).isEqualTo("\\Q;\\E");
     }
 }
