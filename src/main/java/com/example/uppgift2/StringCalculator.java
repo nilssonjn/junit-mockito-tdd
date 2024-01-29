@@ -3,12 +3,14 @@ package com.example.uppgift2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringCalculator {
 
-    String delimiters = "[,\n;]";
+    private static final String defaultDelimiters = "[/,\n;]";
+    private static final Pattern customDelimiter = Pattern.compile("^//(\\[.+])+\n(.*)");
 
     public int add(String numbers) {
         if (numbers.isEmpty()) return 0;
@@ -16,33 +18,40 @@ public class StringCalculator {
     }
 
     private int adding(String numbers) {
-        List<Integer> separatedNumbers = stringToNumbers(splitNumbers(numbers));
+        String delimiters = defaultDelimiters;
+        Matcher matcher = customDelimiter.matcher(numbers);
+        if (matcher.matches()) {
+            delimiters = extractDelimiters(matcher.group(1));
+            numbers = matcher.group(2);
+        }
+        List<Integer> separatedNumbers = stringToNumbers(numbers.split(delimiters));
         findNegativeNumbers(separatedNumbers);
         return separatedNumbers.stream().filter(n -> n <= 1000).reduce(0, Integer::sum);
+    }
+
+    private String extractDelimiters(String delimiterString) {
+        if (delimiterString.isEmpty()) {
+            return defaultDelimiters;
+        }
+        StringBuilder delimiters = new StringBuilder();
+        Matcher matcher = Pattern.compile("\\[(.*?)]").matcher(delimiterString);
+        while (matcher.find()) {
+            delimiters.append(Pattern.quote(matcher.group(1))).append("|");
+        }
+        if (!delimiters.isEmpty()) {
+            delimiters.deleteCharAt(delimiters.length() - 1);
+        } else {
+            delimiters.append(Pattern.quote(delimiterString));
+        }
+        return delimiters.toString();
     }
 
     private List<Integer> stringToNumbers(String[] split) {
         return Arrays
                 .stream(split)
+                .filter(s -> !s.isEmpty())
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
-    }
-
-    private String[] splitNumbers(String numbers) {
-        if (numbers.startsWith("//")) {
-            int delimiterStart = numbers.indexOf("[");
-            int delimiterEnd = numbers.indexOf("]");
-            if (delimiterStart != -1 && delimiterEnd != -1 && delimiterEnd > delimiterStart) {
-                String delimiter = numbers.substring(delimiterStart + 1, delimiterEnd);
-                String escapedDelimiter = Pattern.quote(delimiter);
-                delimiters = "[" + escapedDelimiter + "\n]";
-                return numbers.substring(numbers.indexOf("\n") + 1).replaceAll("\\s+", "").split(escapedDelimiter);
-            } else {
-                return numbers.substring(4).split(delimiters);
-            }
-        } else {
-            return numbers.split(delimiters);
-        }
     }
 
     private void findNegativeNumbers(List<Integer> seperatedNumbers) {

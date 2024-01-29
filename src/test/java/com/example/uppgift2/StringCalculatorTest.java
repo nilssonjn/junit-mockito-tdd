@@ -104,4 +104,10 @@ class StringCalculatorTest {
     void givenDelimiterWithAnyLengthShouldStillReturnRightAmount() {
         assertThat(stringCalculator.add("//[***]\n1***2***3")).isEqualTo(6);
     }
+
+    @Test
+    @DisplayName("Given multiple delimiters should still return right amount")
+    void givenMultipleDelimitersShouldStillReturnRightAmount() {
+        assertThat(stringCalculator.add("//[*][%]\n1*2%3")).isEqualTo(6);
+    }
 }
