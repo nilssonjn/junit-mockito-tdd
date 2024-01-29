@@ -110,4 +110,10 @@ class StringCalculatorTest {
     void givenMultipleDelimitersShouldStillReturnRightAmount() {
         assertThat(stringCalculator.add("//[*][%]\n1*2%3")).isEqualTo(6);
     }
+
+    @Test
+    @DisplayName("Given multiple delimiters with length longer than one char")
+    void givenMultipleDelimitersWithLengthLongerThanOneChar() {
+        assertThat(stringCalculator.add("//[***][%%]\n1***4%%5")).isEqualTo(10);
+    }
 }
